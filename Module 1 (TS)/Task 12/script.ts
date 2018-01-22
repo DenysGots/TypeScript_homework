@@ -74,7 +74,13 @@ const shipBattleGame = function(): void {
             model.attempts += 1;
 
             model.ships.forEach(obj => {
-                if (obj.join('') === controller.currentCoordinate.join('')) {
+                if (obj.join('') !== controller.currentCoordinate.join('')) {
+                    view.message.innerHTML = `Miss!`;
+
+                    e.target.classList.add("missCell", "inactiveCell");
+                    e.target.removeAttribute("data-has-listener");
+                    e.target.removeEventListener("click", controller.listener, false);
+                } else {
                     view.message.innerHTML = `Hit!`;
 
                     model.hits -= 1;
@@ -82,12 +88,6 @@ const shipBattleGame = function(): void {
                     model.ships.splice(model.ships.indexOf(obj), 1);
 
                     e.target.classList.add("hitCell", "inactiveCell");
-                    e.target.removeAttribute("data-has-listener");
-                    e.target.removeEventListener("click", controller.listener, false);
-                } else {
-                    view.message.innerHTML = `Miss!`;
-
-                    e.target.classList.add("missCell", "inactiveCell");
                     e.target.removeAttribute("data-has-listener");
                     e.target.removeEventListener("click", controller.listener, false);
                 };
